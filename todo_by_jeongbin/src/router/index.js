@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import TodosView from "../views/TodosView.vue";
+import TodoHome from "../views/TodoHome.vue"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -7,18 +7,18 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: TodosView,
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: () => import("../views/AboutView.vue"),
-    },
-    {
-      path: "/testing",
-      name: "testing",
-      component: () => import("../views/TestingView.vue"),
-    },
+      component: TodoHome
+    }
+    // {
+    //   path: "/",
+    //   name: "home",
+    //   component: TodosView,
+    // },
+    // {
+    //   path: "/about",
+    //   name: "about",
+    //   component: () => import("../views/AboutView.vue"),
+    // },
   ],
 });
 
