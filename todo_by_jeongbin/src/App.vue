@@ -4,8 +4,10 @@ import TodoHeaderVue from './components/TodoHeader.vue'
 </script>
 
 <template>
-<TodoHeaderVue />
-<RouterView />
+  <div class="container">
+    <TodoHeaderVue />
+    <RouterView />
+  </div>
 </template>
 
 <style lang="scss">
@@ -19,7 +21,7 @@ import TodoHeaderVue from './components/TodoHeader.vue'
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 500px;
   margin: 0 auto;
 }
 </style>

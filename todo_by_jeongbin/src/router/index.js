@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import TodoHome from "../views/TodoHome.vue"
+import TodoHome from "../views/TodoHome.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -7,8 +7,8 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: TodoHome
-    }
+      component: TodoHome,
+    },
     // {
     //   path: "/",
     //   name: "home",
