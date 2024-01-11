@@ -1,8 +1,11 @@
 <script setup>
 import { ref, watch, computed, defineProps } from 'vue'
 import { Icon } from "@iconify/vue"
+import { uid } from "uid";
 import TodoItem from './TodoItem.vue'
+import TodoCreator from './TodoCreator.vue'
 
+const emit = defineEmits(["create-todo"])
 const props = defineProps({
     todoList: {
         type: Array,
@@ -22,13 +25,20 @@ const todoCompleted = computed(() => {
     return TodoList.value.every((todo) => todo.isCompleted);
 });
 
-watch(props, (newValue) => {
-    TodoList.value = newValue.todoList;
-    if(newValue.filterKey !== "00000000000"){
-        TodoList.value = TodoList.value.filter(todo => todo.categoryId === newValue.filterKey)
+watch(props, 
+    (newValue) => {
+        TodoList.value = newValue.todoList;
+        if(newValue.filterKey !== "00000000000"){
+            TodoList.value = TodoList.value.filter(todo => todo.categoryId === newValue.filterKey)
+        }
     }
-} )
+)
 
+watch(localStorage, {
+    handler(newStore) {},
+    deep: true,
+    }
+)
 
 const toggleTodoComplete = (todoPos) => {
     TodoList.value[todoPos].isCompleted = !TodoList.value[todoPos].isCompleted;
@@ -38,17 +48,32 @@ const toggleEditTodo = (todoPos) => {
     TodoList.value[todoPos].isEditing = !TodoList.value[todoPos].isEditing;
 }
 
+const createTodo = (newTodo, categoryId) => {
+    TodoList.value.push({
+        id: uid(),
+        todoTitle: newTodo,
+        todoContent: "", 
+        categoryId: categoryId,
+        isEditing: false,
+        isCompleted: false
+    })
+
+    console.log(TodoList.value)
+}
+
 const updateTodo = (todoVal, todoPos) => {
     TodoList.value[todoPos].todoTitle = todoVal;
 }
 
 const deleteTodo = (todoId) => {
     TodoList.value = TodoList.value.filter((todo) => todo.id !== todoId);
+    emit("delete-todo", todoId)
 }
 </script>
 
 <template>
     <div>
+        <TodoCreator @create-todo="createTodo" />
         <ul class="todo-list" v-if="TodoList.length > 0">
             <TodoItem 
                 v-for="(Todo, index) in TodoList" :key="Todo.id"

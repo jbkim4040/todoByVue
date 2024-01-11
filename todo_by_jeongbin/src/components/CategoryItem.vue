@@ -12,9 +12,9 @@ const props = defineProps(
     }   
 );
 
-const emits = defineEmits(["select-category", "modify-category", "delete-category"]);
+const emits = defineEmits(["select-category", "delete-category"]);
 
-
+const store = ref(localStorage)
 const CategoryList = ref(props.categoryList);
 const isEditing = ref(false);
 
@@ -30,6 +30,8 @@ const addCategory = () => {
     isEditable: true,
     isEditing: false
   });
+
+  store.value.setItem('category-list', JSON.stringify(CategoryList.value));
 };
 
 const updateCategory = (newCategoryName, categoryPos) => {
@@ -45,6 +47,22 @@ const deleteCategory = (categoryId) => {
 
 <template>
   <div>
+    <v-card>
+        <v-tabs
+            bg-color="teal-darken-3"
+            show-arrows
+            slider-color="teal-lighten-3"
+        >
+            <v-tab @click="$emit('select-category', '00000000000')">전체</v-tab>
+            <v-tab
+                v-for="Category in CategoryList"
+                :key="Category.categoryId"
+            >
+                {{ Category.name }}
+            </v-tab>
+            <v-tab @click="addCategory">+</v-tab>
+        </v-tabs>
+    </v-card>
     <ul>
         <li @click="$emit('select-category', '00000000000')">전체</li>
         <CategoryItem
@@ -65,8 +83,13 @@ const deleteCategory = (categoryId) => {
 </template>
 
 <style lang="scss" scoped>
+ul {
+    list-style:none;
+}
+
 li {
-    cursor: pointer
+    cursor: pointer;
+    float: left;
 }
 
 </style>>

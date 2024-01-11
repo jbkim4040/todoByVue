@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { uid } from "uid";
 import CategoryItem from '../components/CategoryItem.vue'
 import TodoView from '../components/TodoView.vue'
@@ -50,11 +50,25 @@ const deleteCategory = (categoryId) => {
     console.log("삭제할 카테고리 ID :: ", categoryId)
 }
 
-
 const createTodo = () => {
 
 }
 
+const deleteTodo = (todoId) => {
+    console.log(todoId)
+    TodoList.value = TodoList.value.filter(todo => todo.id !== todoId)
+}
+
+const setTodoListLocalStorage = (todoList) => {
+    localStorage.setItem("todo-list", JSON.stringify(todoList.value))
+}
+
+const setCategoryListLocalStorage = (categoryList) => {
+    localStorage.setItem("category-list", JSON.stringify(categoryList.value))
+}
+
+setTodoListLocalStorage(TodoList);
+setCategoryListLocalStorage(CategoryList);
 </script>
 
 <template>
@@ -64,10 +78,12 @@ const createTodo = () => {
             @select-category="selectCategory" 
             @delete-category="deleteCategory" 
         />
+        <br>
         <hr>
         <TodoView 
             :todoList="TodoList" 
             :filterKey="filterKey" 
+            @delete-todo="deleteTodo"
         />
     </main>
 </template>

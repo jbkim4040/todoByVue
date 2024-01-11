@@ -63,6 +63,7 @@ const category = ref(props.category)
         cursor: pointer;
         
         &:hover{
+            background-color: #ff0000;
             .category-action{
                 opacity: 1;
             }
